@@ -55,6 +55,9 @@ Components to be included:-
 - Grid
     - Cell
 - Timer
+- Words Input
+- Word List
+- Result Chart
 
 ### Models
 - User
