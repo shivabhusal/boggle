@@ -1,0 +1,18 @@
+$width: 50px;
+$height: 50px;
+$border-width: 1px;
+$grid-width: $width * 4 + $border-width * 2;
+
+.boggle-grid {
+  display: grid;
+  grid-template-columns: $width $width $width $width;
+  grid-template-rows: $height $height $height $height;
+  border: $border-width solid red;
+  width: $grid-width;
+  text-align: center;
+  
+  div {
+    border: 1px solid red;
+    line-height: $height;
+  }
+}
