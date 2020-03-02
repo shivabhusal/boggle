@@ -14,20 +14,22 @@ ActiveRecord::Schema.define(version: 2020_03_02_053232) do
 
   create_table "games", force: :cascade do |t|
     t.string "grid"
-    t.integer "user_id", null: false
     t.string "words"
+    t.integer "difficulty_level", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_games_on_user_id"
   end
 
   create_table "plays", force: :cascade do |t|
-    t.integer "game_id", null: false
     t.string "correct_words"
     t.string "incorrect_words"
+    t.integer "score", default: 0
+    t.integer "game_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_plays_on_game_id"
+    t.index ["user_id"], name: "index_plays_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -37,6 +39,6 @@ ActiveRecord::Schema.define(version: 2020_03_02_053232) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "games", "users"
   add_foreign_key "plays", "games"
+  add_foreign_key "plays", "users"
 end
