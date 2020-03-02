@@ -42,3 +42,34 @@ open API)
 ## Additional Notes:
 - Just single player is enough
 - No need to build a user management. It will be too complex
+
+## Architecture Design
+### UI Components
+Components to be included:-
+- Routes
+    - Home Route
+    - Games Route
+        - New / Show
+    - Dashboard Home
+    - 
+- Grid
+    - Cell
+- Timer
+
+### Models
+- User
+- Game
+- Play
+
+### Controllers
+- Home
+    - Index
+- Api/v1/Games
+    - index
+    - create:- will directly create a new game and store
+    - show
+- Api/v1/Plays
+    - plays
+    - create
+    - show
+
