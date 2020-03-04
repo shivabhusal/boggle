@@ -4,7 +4,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import GameIndex from '../components/games/index'
 import GameShow from '../components/games/show'
-import { games } from '../components/games/selectors'
+import { allGames } from '../components/games/selectors'
 
 const App = () => (
     <Router>
@@ -20,7 +20,7 @@ const App = () => (
                 </Route>
                 <Route path="/games">
                     <h1>Games</h1>
-                    <GameIndex games={games} />
+                    <GameIndex />
                 </Route>
                 <Route path="/plays">
                     <h1>Plays</h1>
