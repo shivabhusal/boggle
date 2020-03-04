@@ -1,10 +1,12 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 import Header from '../components/header'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import GameIndex from '../components/games/index'
 import GameShow from '../components/games/show'
-import { allGames } from '../components/games/selectors'
+import { Provider } from 'react-redux'
+import store from '../redux/store'
+
 
 const App = () => (
     <Router>
@@ -16,7 +18,7 @@ const App = () => (
                 </Route>
                 <Route path="/games/:id">
                     <h1>Game Show</h1>
-                    <GameShow />
+                    <GameShow/>
                 </Route>
                 <Route path="/games">
                     <h1>Games</h1>
@@ -35,7 +37,9 @@ const App = () => (
 
 document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(
-        <App />,
+        <Provider store={store}>
+            <App />
+        </Provider>,
         document.body.appendChild(document.createElement('div'))
     )
 })

@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react'
+
 import { Link } from 'react-router-dom'
 import Grid from '../grid'
-import { render } from 'react-dom';
+
+import React from 'react'
+
+import { connect } from 'react-redux'
+import { loadGamesFailure, loadGamesSuccess, loadAllGames } from '../../../redux/actionCreators'
 
 
 class GameList extends React.Component {
-    state = {games: []};
+    componentWillMount() {
+        console.log(this.props)
+    }
 
     componentDidMount() {
-        fetch('/api/v1/games').then(resp => resp.json()).then(resp => {
-            console.log("Data Loaded: ", resp)
-            this.setState({games: resp.data})
-        })
+        this.props.loadAllGames()
     }
 
     render = () => (
@@ -30,7 +33,7 @@ class GameList extends React.Component {
             </thead>
             <tbody>
                 {
-                    this.state.games && this.state.games.map(game => (
+                    this.props.games.games && this.props.games.games.map(game => (
                         <tr key={`game-${game.id}`}>
                             <td>{game.id}</td>
                             <td><Grid game={game} /></td>
@@ -48,4 +51,10 @@ class GameList extends React.Component {
     )
 }
 
-export default GameList;
+const mapState = (state) => (
+    { games: state.games }
+)
+
+export default connect(mapState,
+    { loadGamesSuccess, loadGamesFailure, loadAllGames }
+)(GameList);
