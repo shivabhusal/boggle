@@ -6,7 +6,7 @@ import GameIndex from '../components/games/index'
 import GameShow from '../components/games/show'
 import { Provider } from 'react-redux'
 import store from '../redux/store'
-import PlayShow from '../components/plays/show'
+import PlayIndex from '../components/plays/index'
 import PlayNew from '../components/plays/new'
 
 
@@ -36,6 +36,7 @@ const App = () => (
 
                 <Route path="/plays">
                     <h1>Plays</h1>
+                    <PlayIndex />
                 </Route>
                 
                 <Route path="/">

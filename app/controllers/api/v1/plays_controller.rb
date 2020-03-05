@@ -2,8 +2,13 @@
 
 class Api::V1::PlaysController < ApiController
   skip_before_action :verify_authenticity_token
-  def create
+  layout false
+  
+  def index
+    @plays = Play.all
+  end
 
+  def create
     game = Game.find(params[:game_id])
     the_play = game.plays.create(
       correct_words: params[:words][:valid],

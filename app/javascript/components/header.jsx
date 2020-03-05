@@ -19,6 +19,9 @@ const Header = () => (
                 <li className="nav-item">
                     <Link className="nav-link" to="/games">Games</Link>
                 </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/plays">Plays</Link>
+                </li>
             </ul>
 
             <form className="form-inline my-2 my-lg-0">
