@@ -38,3 +38,20 @@ export const game = (state = {game: {grid: []}}, action)=>{
         }
     }
 }
+
+export const play = (state = {game: {grid: []}}, action)=>{
+    switch(action.type){
+        case LOAD_GAME_SUCCESS:{
+            return(
+                {
+                    ...state,
+                    game: action.payload.game
+                }
+            )
+        }
+
+        default:{
+            return(state)
+        }
+    }
+}
