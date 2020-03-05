@@ -9,6 +9,7 @@ import store from '../redux/store'
 import PlayIndex from '../components/plays/index'
 import PlayNew from '../components/plays/new'
 import Home from '../components/home'
+import Dashboard from '../components/dashboard'
 
 const App = () => (
     <Router>
@@ -16,7 +17,7 @@ const App = () => (
         <div className="container">
             <Switch>
                 <Route path="/dashboard">
-                    <h1>Dashboard</h1>
+                    <Dashboard/>
                 </Route>
 
                 <Route path="/games/:gameId/plays/new">
