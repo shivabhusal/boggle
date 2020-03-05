@@ -1,10 +1,14 @@
 import React from 'react'
-export default () => (
-    <ul className="list-group">
-  <li className="list-group-item active">Cras justo odio</li>
-  <li className="list-group-item">Dapibus ac facilisis in</li>
-  <li className="list-group-item">Morbi leo risus</li>
-  <li className="list-group-item">Porta ac consectetur ac</li>
-  <li className="list-group-item">Vestibulum at eros</li>
-</ul>
+export default ({ words: { invalid, valid } }) => (
+  <ul className="list-group">
+    <h2>Invalid Words</h2>
+    {
+      invalid.map((word, i) => <li key={word+i} className="list-group-item text-white bg-danger">{word}</li>)
+    }
+    <hr/>
+    <h2>Valid Words</h2>
+    {
+      valid.map((word, i) => <li key={word+i} className="list-group-item text-white bg-success">{word}</li>)
+    }
+  </ul>
 )
