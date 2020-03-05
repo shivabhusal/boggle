@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '../grid'
 
 import { connect } from 'react-redux'
-import { loadGameSuccess, loadGameFailure, loadGame } from '../../../redux/actionCreators'
+import { loadGame } from '../../../redux/actionCreators'
 
 class Game extends React.Component {
 
@@ -12,7 +12,7 @@ class Game extends React.Component {
     }
 
     render = () => {
-        const game = this.props.game.game;
+        const game = this.props.game;
 
         return (
             <>
@@ -45,12 +45,6 @@ class Game extends React.Component {
     }
 }
 
-const mapState = (state) => {
-    console.log(state);
-    return ({
-        game: state.game
-    })
-}
+const mapState = (state) => ({game: state.game})
 
-export default connect(mapState,
-    { loadGameSuccess, loadGameFailure, loadGame })(Game);
+export default connect(mapState,{loadGame })(Game);

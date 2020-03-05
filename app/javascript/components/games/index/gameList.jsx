@@ -33,7 +33,7 @@ class GameList extends React.Component {
             </thead>
             <tbody>
                 {
-                    this.props.games.games && this.props.games.games.map(game => (
+                    this.props.games && this.props.games.map(game => (
                         <tr key={`game-${game.id}`}>
                             <td>{game.id}</td>
                             <td><Grid game={game} /></td>
@@ -51,9 +51,7 @@ class GameList extends React.Component {
     )
 }
 
-const mapState = (state) => (
-    { games: state.games }
-)
+const mapState = (state) => ({ games: state.games })
 
 export default connect(mapState,
     { loadGamesSuccess, loadGamesFailure, loadAllGames }
