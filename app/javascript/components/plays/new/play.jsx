@@ -10,10 +10,11 @@ import Timer from './timer'
 class Play extends React.Component {
     state = {
         timeup: false,
+        countDownStartTime: { min: 0, sec: 60 },
         score: 0,
         words: {
-            valid: ['ram'],
-            invalid: ['mar']
+            valid: [],
+            invalid: []
         }
     }
 
@@ -26,14 +27,14 @@ class Play extends React.Component {
         this.setState({ timeup: true }, () => {
             fetch(`/api/v1/games/${id}/plays`,
                 {
+                    // Without this, fetch wont send the JSON payload to the server
                     headers: {
                         'Content-Type': 'application/json'
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
-                      },
+                    },
                     method: 'post',
                     body: JSON.stringify(this.state)
                 }).then(() => {
-                    console.log("Data saved.........")
+                    console.log("The is successfully saved")
                 })
         })
     }
@@ -60,8 +61,6 @@ class Play extends React.Component {
                     })
                 }
             })
-
-        console.log(word, ' is here')
     }
 
     showScore = () => {
@@ -82,7 +81,7 @@ class Play extends React.Component {
                 </div>
 
                 <div className="col-md-8">
-                    <Timer startTime={{ min: 0, sec: 4 }} handleTimeup={this.handleTimeup} />
+                    <Timer startTime={this.state.countDownStartTime} handleTimeup={this.handleTimeup} />
                     <Grid game={this.props.game} />
                     <br />
                     <AddWord handleNewWord={this.handleNewWord} timeup={this.state.timeup} />

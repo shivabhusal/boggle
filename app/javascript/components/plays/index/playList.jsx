@@ -22,7 +22,7 @@ class PlayList extends React.Component {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>grid</th>
+                    <th>Game</th>
                     <th># of Correct Words</th>
                     <th># of Incorrect Words</th>
                     <th>Score</th>

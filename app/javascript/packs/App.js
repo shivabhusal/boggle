@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import store from '../redux/store'
 import PlayIndex from '../components/plays/index'
 import PlayNew from '../components/plays/new'
-
+import Home from '../components/home'
 
 const App = () => (
     <Router>
@@ -40,7 +40,7 @@ const App = () => (
                 </Route>
                 
                 <Route path="/">
-                    <h1>Home</h1>
+                    <Home/>
                 </Route>
             </Switch>
         </div>
