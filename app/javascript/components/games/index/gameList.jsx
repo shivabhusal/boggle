@@ -42,7 +42,7 @@ class GameList extends React.Component {
                             <td>{game.topScore}</td>
                             <td>{game.difficultyLevel}</td>
                             <td><Link to={`/games/${game.id}`}>View</Link></td>
-                            <td><Link to={`/plays/new/${game.id}`}>Play</Link></td>
+                            <td><Link to={`/games/${game.id}/plays/new`}>Play</Link></td>
                         </tr>
                     ))
                 }

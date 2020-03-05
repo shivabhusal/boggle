@@ -51,3 +51,11 @@ export const loadGame = (id)=>(
     }
 )
 
+//------------------------------------
+
+export const ADD_WORD = 'addword';
+export const VERIFY_WORD = 'addword';
+// export const ADD        w_WORD = 'addword';
+// export const ADD_WORD = 'addword';
+// export const ADD_WORD = 'addword';
+// export const ADD_WORD = 'addword';
