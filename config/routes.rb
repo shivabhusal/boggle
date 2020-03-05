@@ -2,10 +2,15 @@
 
 Rails.application.routes.draw do
   root 'home#index'
-  
+
   namespace :api do
     namespace :v1 do
-      resources :games
+      resources :games do
+        resources :plays
+        member do
+          get :check
+        end
+      end
     end
   end
 
