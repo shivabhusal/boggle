@@ -13,7 +13,7 @@ export default class AddWord extends React.Component {
     }
 
     updateInput = (e) => {
-        this.setState({ input: e.target.value })
+        this.setState({ input: e.target.value.toUpperCase() })
     }
 
     handleKeyPress = (e) => {
