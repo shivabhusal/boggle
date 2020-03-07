@@ -26,7 +26,7 @@ export default class AddWord extends React.Component {
             <input className="w-50 m-auto d-block text-center p-1" type="text"
                 onChange={this.updateInput}
                 value={this.state.input}
-                disabled={this.state.timeup}
+                disabled={this.state.timeup || !this.state.gameStarted}
                 placeholder={this.state.timeup ? "No new words accepted!" : "Your Word Here"} />
         </form>
     )

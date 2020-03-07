@@ -6,6 +6,7 @@ import Grid from '../../games/grid'
 import AddWord from './addWord'
 import WordList from './wordList'
 import Timer from './timer'
+
 const initialState = {
     gameStarted: false,
     timeup: false,
@@ -19,9 +20,11 @@ const initialState = {
 class Play extends React.Component {
     state = initialState;
 
+
     componentDidMount() {
         this.props.loadGame(this.props.match.params.gameId)
     }
+
 
     handleStartGame = () => {
         this.setState({ ...initialState, gameStarted: true})
@@ -32,6 +35,7 @@ class Play extends React.Component {
         this.calcScore()
 
         this.setState({ timeup: true, gameStarted: false }, () => {
+
             fetch(`/api/v1/games/${id}/plays`,
                 {
                     // Without this, fetch wont send the JSON payload to the server
@@ -45,6 +49,7 @@ class Play extends React.Component {
                 })
         })
     }
+
 
     calcScore = () => {
         const score = this.state.words.valid.reduce((total, word) => (total + word.length), 0)
@@ -77,6 +82,7 @@ class Play extends React.Component {
             return;
         }
 
+
         fetch(`/api/v1/games/${id}/check?word=${word}`)
             .then(resp => resp.json())
             .then(resp => {
@@ -105,6 +111,7 @@ class Play extends React.Component {
                     {this.showScore()}
                 </div>
 
+
                 <div className="col-md-8 text-center">
 
                     <Timer
@@ -126,6 +133,7 @@ class Play extends React.Component {
                     {
                         !this.state.gameStarted ? <button className="btn btn-primary" onClick={this.handleStartGame}>Start Game</button> : ''
                     }
+
                 </div>
             </div>
         </>

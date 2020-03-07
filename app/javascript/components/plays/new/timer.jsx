@@ -2,6 +2,7 @@ import React from 'react'
 
 export default class Timer extends React.Component {
 
+
     constructor(props) {
         super(props);
         const { startTime, gameStarted, timeup } = props;
@@ -15,15 +16,18 @@ export default class Timer extends React.Component {
             this.setState({ startTime, gameStarted, timeup }, () => {
                 if (this.state.gameStarted)
                     clearInterval(this.timer)
-                    this.timer = setInterval(this.minusOneSec, 1000);
+                this.timer = setInterval(this.minusOneSec, 1000);
             })
         }
+
     }
 
     componentDidMount() {
         console.log("Mounted..")
+
         if (this.state.gameStarted)
             this.timer = setInterval(this.minusOneSec, 1000);
+
     }
 
     componentWillUnmount() {
@@ -31,6 +35,7 @@ export default class Timer extends React.Component {
     }
 
     minusOneSec = () => {
+
         const { startTime: { min, sec } } = this.state
         if (min != 0) {
             if (sec == 0)
@@ -41,13 +46,16 @@ export default class Timer extends React.Component {
         } else {
             if (sec == 0) {
                 this.setState({ startTime: { min: 0, sec: 0 }, timeup: true }, () => {
+
                     clearInterval(this.timer);
                     this.props.handleTimeup()
                 });
 
             }
             else
+
                 this.setState({ startTime: { ...this.state.startTime, sec: sec - 1 } })
+
         }
     }
 
@@ -60,6 +68,7 @@ export default class Timer extends React.Component {
 
 
     render = () => {
+
         const { startTime: { min, sec }, timeup } = this.state
         if (timeup) {
             return (
@@ -71,5 +80,6 @@ export default class Timer extends React.Component {
 
     }
 }
+
 
 
