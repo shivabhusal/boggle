@@ -2,14 +2,13 @@ import React from 'react'
 export default class AddWord extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { input: '', timeup: props.timeup }
+        this.state = { input: '', timeup: props.timeup, gameStarted: props.gameStarted }
         console.log("New s")
-
     }
 
     componentDidUpdate = (prevProps) => {
         if (prevProps.timeup != this.props.timeup)
-            this.setState({ timeup: this.props.timeup })
+            this.setState({ input: '', timeup: this.props.timeup })
     }
 
     updateInput = (e) => {
@@ -24,7 +23,7 @@ export default class AddWord extends React.Component {
 
     render = () => (
         <form action="#" className="col-12" onSubmit={this.handleKeyPress}>
-            <input className="w-25 m-auto d-block text-center" type="text"
+            <input className="w-50 m-auto d-block text-center p-1" type="text"
                 onChange={this.updateInput}
                 value={this.state.input}
                 disabled={this.state.timeup}

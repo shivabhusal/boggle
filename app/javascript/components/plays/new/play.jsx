@@ -6,25 +6,32 @@ import Grid from '../../games/grid'
 import AddWord from './addWord'
 import WordList from './wordList'
 import Timer from './timer'
-
-class Play extends React.Component {
-    state = {
-        timeup: false,
-        countDownStartTime: { min: 0, sec: 6 },
-        score: 0,
-        words: {
-            valid: [],
-            invalid: []
-        }
+const initialState = {
+    gameStarted: false,
+    timeup: false,
+    countDownStartTime: { min: 0, sec: 6 },
+    score: 0,
+    words: {
+        valid: [],
+        invalid: []
     }
+};
+class Play extends React.Component {
+    state = initialState;
 
     componentDidMount() {
         this.props.loadGame(this.props.match.params.gameId)
     }
 
+    handleStartGame = () => {
+        this.setState({ ...initialState, gameStarted: true})
+    }
+
     handleTimeup = () => {
         const id = this.props.match.params.gameId;
-        this.setState({ timeup: true }, () => {
+        this.calcScore()
+
+        this.setState({ timeup: true, gameStarted: false }, () => {
             fetch(`/api/v1/games/${id}/plays`,
                 {
                     // Without this, fetch wont send the JSON payload to the server
@@ -35,7 +42,6 @@ class Play extends React.Component {
                     body: JSON.stringify(this.state)
                 }).then(() => {
                     console.log("The is successfully saved")
-                    this.calcScore()
                 })
         })
     }
@@ -99,11 +105,27 @@ class Play extends React.Component {
                     {this.showScore()}
                 </div>
 
-                <div className="col-md-8">
-                    <Timer startTime={this.state.countDownStartTime} handleTimeup={this.handleTimeup} />
+                <div className="col-md-8 text-center">
+
+                    <Timer
+                        gameStarted={this.state.gameStarted}
+                        startTime={this.state.countDownStartTime}
+                        handleTimeup={this.handleTimeup}
+                        timeup={this.state.timeup}
+                    />
+
                     <Grid game={this.props.game} />
                     <br />
-                    <AddWord handleNewWord={this.handleNewWord} timeup={this.state.timeup} />
+
+                    <AddWord gameStarted={this.state.gameStarted}
+                        handleNewWord={this.handleNewWord}
+                        timeup={this.state.timeup}
+                    />
+
+                    <hr />
+                    {
+                        !this.state.gameStarted ? <button className="btn btn-primary" onClick={this.handleStartGame}>Start Game</button> : ''
+                    }
                 </div>
             </div>
         </>
