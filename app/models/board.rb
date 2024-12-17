@@ -17,17 +17,15 @@ class Board < ApplicationRecord
     return false if word.length < MIN_WORD_LENGTH || word.length > MAX_WORD_LENGTH || !word_in_dict?(word)
 
     # find each occurance of first letter in the board and traverse
-    word.split("").each_with_index do |l, l_pos|
-      # finding the positions of the letters in the word
-      self.letters.each_with_index do |inner_array, i|
-        inner_array.each_with_index do |letter, j|
-            if l == letter # letters found in the board
-              puts "found: " + [ l, i, j ].to_s
-              if search_surrounding(i, j, l_pos, word)
-                return true
-              end
+    # finding the positions of the letters in the word
+    self.letters.each_with_index do |inner_array, i|
+      inner_array.each_with_index do |letter, j|
+          if word[0] == letter # letters found in the board
+            res = search_surrounding(i, j, 0, word)
+            if res
+              return true
             end
-        end
+          end
       end
     end
 
@@ -44,17 +42,22 @@ class Board < ApplicationRecord
   def search_surrounding(i, j, l_pos, word)
     matrix = [
       [ i-1, j-1 ], [ i-1, j ], [ i-1, j+1 ],
-      [ i, j-1 ],   [ i, j ],   [ i, j+1 ],
+      [ i, j-1 ],        [ i, j+1 ],
       [ i+1, j-1 ], [ i+1, j ], [ i+1, j+1 ]
     ]
     matrix.each do |pair|
+      next unless valid_boundary?(pair)
+
       neighbor = letters[pair[0]][pair[1]]
       next_letter = word[l_pos+1]
-      if valid_boundary?(pair) &&  neighbor == next_letter
-        if l_pos + 1 == word.length - 1 # is last letter in the word
+      if neighbor == next_letter
+
+        if (l_pos+1) == (word.length - 1) # is last letter in the word
           return true
         else
-          search_surrounding(pair[0], pair[1], l_pos + 1, word)
+          if search_surrounding(pair[0], pair[1], l_pos + 1, word)
+            return true
+          end
         end
       end
     end
