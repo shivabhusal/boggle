@@ -1,4 +1,8 @@
 class Board < ApplicationRecord
+  BOARD_SIZE      = 4
+  MIN_WORD_LENGTH = 3
+  MAX_WORD_LENGTH = BOARD_SIZE**BOARD_SIZE
+
   def self.create_new!
     transaction do
       a_letters = ("A".."Z").to_a.sample(16)
@@ -9,24 +13,17 @@ class Board < ApplicationRecord
 
   def word_valid?(word)
     word.upcase!
-    # return false if
-    # - word not found in system dictionary
-    # - word length is < 3
-    # - word length > 16
 
-    return false if word.length <3 || word.length > 16 || `look #{word} | wc -l`.to_i == 0
+    return false if word.length < MIN_WORD_LENGTH || word.length > MAX_WORD_LENGTH || !word_in_dict?(word)
 
     # find each occurance of first letter in the board and traverse
-    #
-    # binding.pry
-
     word.split("").each_with_index do |l, l_pos|
-      # positions of the letter
-      letters.each_with_index do |inner_array, i|
+      # finding the positions of the letters in the word
+      self.letters.each_with_index do |inner_array, i|
         inner_array.each_with_index do |letter, j|
-            if l == letter
+            if l == letter # letters found in the board
               puts "found: " + [ l, i, j ].to_s
-              if find_surrounding(i, j, l_pos, word)
+              if search_surrounding(i, j, l_pos, word)
                 return true
               end
             end
@@ -39,22 +36,33 @@ class Board < ApplicationRecord
 
   private
 
-  def find_surrounding(i, j, l_pos, word)
+  def word_in_dict?(word)
+    dictionary = Set.new(File.readlines(Rails.root.join("db/words"), chomp: true).map(&:upcase))
+    dictionary.include?(word)
+  end
+
+  def search_surrounding(i, j, l_pos, word)
     matrix = [
       [ i-1, j-1 ], [ i-1, j ], [ i-1, j+1 ],
       [ i, j-1 ],   [ i, j ],   [ i, j+1 ],
       [ i+1, j-1 ], [ i+1, j ], [ i+1, j+1 ]
     ]
     matrix.each do |pair|
-      if (0..3).include?(pair[0]) && (0..3).include?(pair[1]) && letters[pair[0]][pair[1]] == word[l_pos+1]
-        if l_pos + 1 == word.length - 1
+      neighbor = letters[pair[0]][pair[1]]
+      next_letter = word[l_pos+1]
+      if valid_boundary?(pair) &&  neighbor == next_letter
+        if l_pos + 1 == word.length - 1 # is last letter in the word
           return true
         else
-          find_surrounding(pair[0], pair[1], l_pos + 1, word)
+          search_surrounding(pair[0], pair[1], l_pos + 1, word)
         end
       end
     end
 
     false
+  end
+
+  def valid_boundary?(pair)
+    (0..(BOARD_SIZE-1)).include?(pair[0]) && (0..(BOARD_SIZE-1)).include?(pair[1])
   end
 end
