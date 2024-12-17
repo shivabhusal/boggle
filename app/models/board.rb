@@ -1,13 +1,13 @@
 class Board < ApplicationRecord
   BOARD_SIZE      = 4
   MIN_WORD_LENGTH = 3
-  MAX_WORD_LENGTH = BOARD_SIZE**BOARD_SIZE
+  MAX_WORD_LENGTH = BOARD_SIZE*BOARD_SIZE
 
   def self.create_new!
     transaction do
-      a_letters = ("A".."Z").to_a.sample(16)
-      letters = [ a_letters[0..3], a_letters[4..7], a_letters[8..11], a_letters[12..15] ]
-      create(letters: letters, title: "4x4 Board")
+      a_letters = [ ("A".."Z").to_a, %w[A E I O U]*3 ].flatten.sample(MAX_WORD_LENGTH)
+      letter_s = a_letters.each_slice(4).to_a
+      create(letters: letter_s, title: "4x4 Board")
     end
   end
 
@@ -21,8 +21,7 @@ class Board < ApplicationRecord
     self.letters.each_with_index do |inner_array, i|
       inner_array.each_with_index do |letter, j|
           if word[0] == letter # letters found in the board
-            res = search_surrounding(i, j, 0, word)
-            if res
+            if search_surrounding(i, j, 0, word)
               return true
             end
           end
@@ -42,7 +41,7 @@ class Board < ApplicationRecord
   def search_surrounding(i, j, l_pos, word)
     matrix = [
       [ i-1, j-1 ], [ i-1, j ], [ i-1, j+1 ],
-      [ i, j-1 ],        [ i, j+1 ],
+      [ i, j-1 ],               [ i, j+1 ],
       [ i+1, j-1 ], [ i+1, j ], [ i+1, j+1 ]
     ]
     matrix.each do |pair|
@@ -55,6 +54,7 @@ class Board < ApplicationRecord
         if (l_pos+1) == (word.length - 1) # is last letter in the word
           return true
         else
+          # When reached to the end of the word, returns true and then can return true here
           if search_surrounding(pair[0], pair[1], l_pos + 1, word)
             return true
           end
