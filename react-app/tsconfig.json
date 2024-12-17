@@ -3,7 +3,9 @@
     "target": "esnext",
     "module": "commonjs",
     "jsx": "react-jsx",
-    "types": ["jest", "sass"],
+    "types": [
+      "jest"
+    ],
     "esModuleInterop": true
   }
 }
