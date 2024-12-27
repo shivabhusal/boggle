@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Timer from "./timer";
 const API_URL = 'http://localhost:3000/api/v1/boards';
 export default function Board() {
   const boardLetters = [
@@ -55,18 +56,30 @@ export default function Board() {
 
 
   return (
-    <div className="board">
+    <div className="board row">
       <Timer callback={whenTimerEnds} />
-      {
-        letters.map((row, i) => <Row row={row} key={`letter-${i}`} />)
-      }
-      <input type="text" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWord(e.target.value)} value={word} readOnly={!active} />
-      <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => submitWord()} disabled={isLoading}>Submit</button>
-      <div className="word-list">
-        {words.map((w, i) => <div key={`word-${i}`}> {w} </div>)}
+      <div className="box-container col-md-6">
+        <div className="">
+          {
+            letters.map((row, i) => <Row row={row} key={`letter-${i}`} />)
+          }
+        </div>
+          <div className="row g-3 align-items-center">
+        <input type="text" className="form-control" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWord(e.target.value)} value={word} readOnly={!active} />
+        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => submitWord()} disabled={isLoading} className="btn btn-primary mb-3">Submit</button>
+        </div>
       </div>
-      <div>Score: {score}</div>
-
+      <div className="word-list col-md-3">
+        <h2>Score: {score}</h2>
+        <ul className="list-group">
+          {words.map((w, i) =>
+            <li className="list-group-item d-flex justify-content-between align-items-center" key={`word-${i}`}>
+              {w}
+              <span className="badge text-bg-primary rounded-pill">{w.length}</span>
+            </li>
+          )}
+        </ul>
+      </div>
     </div>
   )
 }
@@ -85,40 +98,3 @@ function Row({ row }: rowType) {
 function Box({ letter }: { letter: string }) {
   return (<div className="b-box"><span>{letter}</span></div>)
 }
-
-function Timer({ callback }: { callback: () => void }) {
-  const [active, setActive] = useState(true)
-  const [min, setMin] = useState(2)
-  const [sec, setSec] = useState(0)
-  const padding = (num) => num < 10 ? `0${num}` : num
-
-  useEffect(() => {
-    const handle = setInterval(() => {
-      const totalSecond = min * 60 + sec - 1;
-      const newSec = totalSecond % 60;
-      const newMin = Math.floor(totalSecond / 60);
-
-      setMin(newMin);
-      setSec(newSec)
-
-      if (totalSecond === 0) {
-        setActive(false)
-        callback()
-      }
-    }, 1000)
-
-    if (!active) {
-      clearInterval(handle)
-    }
-    return () => {
-      clearInterval(handle)
-    }
-  }, [callback, min, sec, active])
-
-  return (
-    <div className="count-down-timer">
-      <span>{padding(min)}</span> : <span>{padding(sec)}</span>
-    </div>
-  )
-}
-
