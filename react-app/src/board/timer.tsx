@@ -31,7 +31,7 @@ export default function Timer({ callback }: { callback: () => void }) {
 
   return (
     <div className="count-down-timer">
-      <span>{padding(min)}</span> : <span>{padding(sec)}</span>
+      <span className="min">{padding(min)}</span> : <span className="sec">{padding(sec)}</span>
     </div>
   )
 }

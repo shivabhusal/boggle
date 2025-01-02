@@ -57,18 +57,19 @@ export default function Board() {
 
   return (
     <div className="board row">
-      <Timer callback={whenTimerEnds} />
       <div className="box-container col-md-6">
+        <Timer callback={whenTimerEnds} />
         <div className="">
           {
             letters.map((row, i) => <Row row={row} key={`letter-${i}`} />)
           }
         </div>
-          <div className="row g-3 align-items-center">
-        <input type="text" className="form-control" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWord(e.target.value)} value={word} readOnly={!active} />
-        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => submitWord()} disabled={isLoading} className="btn btn-primary mb-3">Submit</button>
-        </div>
+        <form className="input-container" onSubmit={(e) => { e.preventDefault() }}>
+          <input type="text" className="form-control" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWord(e.target.value)} value={word} readOnly={!active} />
+          <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => submitWord()} disabled={isLoading} className="btn btn-primary mb-3">Submit</button>
+        </form>
       </div>
+
       <div className="word-list col-md-3">
         <h2>Score: {score}</h2>
         <ul className="list-group">

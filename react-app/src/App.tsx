@@ -1,6 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import Board from './board';
+import bannerImage from './banner.png';
 
 function App() {
   return (
@@ -12,8 +13,12 @@ function App() {
 }
 
 function Header(){
+
   return(
-    <header><h1>Boggle game</h1></header>
+    <header>
+      <img src={bannerImage} alt="" className='w-100' />
+      <h1>Boggle game</h1>
+      </header>
   )
 }
 export default App;
