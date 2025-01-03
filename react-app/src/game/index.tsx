@@ -13,7 +13,7 @@ export default function Board() {
   const [score, setScore] = useState(0);
   const [words, setWords] = useState<string[]>([]);
   const [letters, setLetters] = useState<string[][]>([[]]);
-  
+
   const submitWord = async (word) => {
     const response = await fetch(`${API_URL}/${boardId}/validate_word`, {
       method: 'post',
@@ -45,7 +45,7 @@ export default function Board() {
       }
     })
     const data = await response.json()
-    setLetters(data.letters );
+    setLetters(data.letters);
     setBoardId(data.id)
   }
 
@@ -53,13 +53,16 @@ export default function Board() {
 
 
   return (
-    <div className="board row">
+    <div className="board row my-5">
       <div className="col-md-6">
         <Timer callback={whenTimerEnds} />
         <BoggleBoard letters={letters} />
         <InputForm active={active} submitHandler={submitWord} />
       </div>
-      <ScoreBoard words={words} score={score} />
+      <div className="col-md-6">
+
+        <ScoreBoard words={words} score={score} />
+      </div>
     </div>
   )
 }

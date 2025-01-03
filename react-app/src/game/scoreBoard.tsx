@@ -1,6 +1,6 @@
 export default function ScoreBoard({ words, score }: { words: string[], score: number }) {
   return (
-    <div className="word-list col-md-3">
+    <div className="word-list">
       <h2>Score: {score}</h2>
       <ul className="list-group">
         {words.map((w, i) =>
@@ -11,5 +11,5 @@ export default function ScoreBoard({ words, score }: { words: string[], score: n
         )}
       </ul>
     </div>
-  )
+)
 }

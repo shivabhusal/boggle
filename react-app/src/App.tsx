@@ -7,6 +7,7 @@ const API_URL = 'http://localhost:3000/up';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [gameStarted, setGameStarted] = useState(false);
   let retryCount = useRef(0);
   let timer = useRef(0);
 
@@ -38,10 +39,17 @@ function App() {
 
   return (
     <div className='container'>
-      <Header />
-      {
-        isLoading ? <div className='text-center'>Loading...</div> : <Board />
-      }
+      <div className='container'>
+        <div className="row">
+          <div className="game col-md-6 offset-md-3">
+            <Header />
+
+            { isLoading && <div className='text-center'>Loading...</div> }
+            { !isLoading && (gameStarted ? <Board /> : <Home onStart={()=> setGameStarted(true)} />) }
+          </div>
+        </div>
+      </div>
+
 
     </div>
   );
@@ -52,8 +60,16 @@ function Header() {
   return (
     <header>
       <img src={bannerImage} alt="" className='w-100' />
-      <h1>Boggle game</h1>
     </header>
   )
 }
+
+function Home({onStart}: {onStart: () => void}) {
+  return (
+    <div className='my-5'>
+      <button className='btn btn-primary' onClick={ onStart}>Start New Game</button>
+    </div>
+  )
+}
+
 export default App;
