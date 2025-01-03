@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import './App.css';
 import Board from './game';
 import bannerImage from './banner.png';
@@ -30,29 +29,50 @@ function App() {
         clearInterval(timer.current)
       }
 
-      return (() => {
-        clearInterval(timer.current)
-      })
     }, 1000)
 
-  }, [isLoading])
+    return (() => {
+      clearInterval(timer.current)
+    })
+  }, [])
 
   return (
     <div className='container'>
       <div className='container'>
         <div className="row">
           <div className="game col-md-6 offset-md-3">
+            <DarkModeSwitch />
             <Header />
 
-            { isLoading && <div className='text-center'>Loading...</div> }
-            { !isLoading && (gameStarted ? <Board /> : <Home onStart={()=> setGameStarted(true)} />) }
+            {isLoading && <div className='text-center'>Loading...</div>}
+            {!isLoading && (gameStarted ? <Board /> : <Home onStart={() => setGameStarted(true)} />)}
           </div>
         </div>
       </div>
-
-
     </div>
   );
+}
+
+function DarkModeSwitch() {
+  const [darkMode, setDarkMode] = useState(false);
+  document.body.setAttribute('data-bs-theme', darkMode ? 'dark' : 'light')
+
+  useEffect(() => {
+    if (window.matchMedia) {
+      const matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      setDarkMode(matchMedia.matches ? true : false)
+      matchMedia.addEventListener('change', e => {
+        setDarkMode(e.matches ? true : false)
+      })
+    }
+  }, [])
+
+  return (
+    <div className="form-check form-switch">
+      <input className="form-check-input" checked={darkMode} type="checkbox" onChange={() => setDarkMode(!darkMode)} role="switch" id="flexSwitchCheckDefault" />
+      <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Dark Mode</label>
+    </div>
+  )
 }
 
 function Header() {
@@ -64,10 +84,10 @@ function Header() {
   )
 }
 
-function Home({onStart}: {onStart: () => void}) {
+function Home({ onStart }: { onStart: () => void }) {
   return (
     <div className='my-5'>
-      <button className='btn btn-primary' onClick={ onStart}>Start New Game</button>
+      <button className='btn btn-primary' onClick={onStart}>Start New Game</button>
     </div>
   )
 }
