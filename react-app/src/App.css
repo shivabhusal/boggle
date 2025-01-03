@@ -1,3 +1,11 @@
+.game{
+  border-radius: 10px;
+  background: linear-gradient(145deg, #f0f0f0, #d9d9d9);
+  border: 1px solid #d9d9d9;
+  padding: 20px;
+  margin-top: 20px;
+}
+
 .b-box {
   width: 50px;
   height: 50px;
@@ -6,4 +14,35 @@
   display: inline-block;
   text-align: center;
   align-content: center;
+}
+
+.count-down-timer{
+  width: 200px;
+  align-content: center;
+  align-items: center;
+  font-size: 40px;
+  font-weight: bold;
+  color: red;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.count-down-timer span{
+  border: 1px solid grey;
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  /* display in center */
+  text-align: center;
+  align-content: center;
+}
+
+.input-container{
+  width: 200px;
+  margin-top: 30px;
+}
+
+.input-container button{
+  margin-top: 10px;
+  width: 100%;
 }
