@@ -7,7 +7,6 @@ import InputForm from "./form";
 const API_URL = 'http://localhost:3000/api/v1/boards';
 
 export default function Board() {
-  const [isLoading, setIsLoading] = useState(false);
   const [boardId, setBoardId] = useState<number | null>(null);
   const [active, setActive] = useState(true);
   const [score, setScore] = useState(0);
@@ -22,7 +21,7 @@ export default function Board() {
       },
       body: JSON.stringify({ board: { word } })
     })
-    setIsLoading(false)
+
     console.log('status', response.ok)
     if (response.ok) {
       const newWords = [...new Set([...words, word])]
@@ -55,12 +54,11 @@ export default function Board() {
   return (
     <div className="board row my-5">
       <div className="col-md-6">
-        <Timer callback={whenTimerEnds} />
+        <Timer callback={whenTimerEnds} seconds={5}/>
         <BoggleBoard letters={letters} />
         <InputForm active={active} submitHandler={submitWord} />
       </div>
       <div className="col-md-6">
-
         <ScoreBoard words={words} score={score} />
       </div>
     </div>
