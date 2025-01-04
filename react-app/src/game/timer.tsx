@@ -6,38 +6,34 @@ const lineWidth = 10; // Width of the circle's stroke
 const padding = (num: number) => num < 10 ? `0${num}` : num
 
 export default function Timer({ callback, seconds }: { callback: () => void, seconds?: number }) {
-  // const [secRemaining, setSecRemaining] = useState(seconds)
-
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const intervalRef = useRef<number>(0);
-  const secRemaining = useRef(seconds);
-  console.log('secRemaining', secRemaining.current)
+  const [currentTime, setCurrentTime] = useState(seconds || 60);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const callbackRef = useRef(0);
 
   useEffect(() => {
-  const canvas = canvasRef.current;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    drawTimer(currentTime, seconds || 60, canvasRef.current);
 
-    if(canvas) drawTimer(secRemaining.current, seconds, canvas);
-
-    intervalRef.current = setInterval(() => {
-      secRemaining.current -= 1;
-      drawTimer(secRemaining.current, seconds, canvas);
-      if (secRemaining.current < 1) {
-        clearInterval(intervalRef.current)
-        callback()
+    const interval = setInterval(() => {
+      console.log('interval')
+      if (currentTime === 0) {
+        clearInterval(interval);
+        if (callbackRef.current === 0) {
+          callback();
+          callbackRef.current = 1;
+        }
+      } else {
+        setCurrentTime(currentTime - 1);
       }
-    }, 1000)
-    console.log('intervalRef.current', intervalRef.current)
-    
+    }, 1000);
 
-    return () => {
-      clearInterval(intervalRef.current)
-    }
-  }, [callback, seconds])
+    return () => clearInterval(interval);
+  }, [callback, currentTime, seconds]);
 
   return (
     <div className="count-down-timer">
       <canvas id="countdown" width={width} height={height} ref={canvasRef} />
-      {/* <span className="min">{padding(min)}</span> : <span className="sec">{padding(sec)}</span> */}
     </div>
   )
 }
@@ -53,7 +49,7 @@ function drawTimer(currentTime: number, seconds: number, canvas: HTMLCanvasEleme
   // Draw background circle
   ctx.beginPath();
   ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, 2 * Math.PI);
-  ctx.strokeStyle = '#e0e0e0';
+  ctx.strokeStyle = '#ec5555';
   ctx.lineWidth = lineWidth;
   ctx.stroke();
 

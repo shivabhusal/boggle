@@ -49,7 +49,7 @@ export default function Board() {
   }
 
   useEffect(() => { fetchBoard(); }, [])
-
+console.log('letters', letters)
 
   return (
     <div className="board row my-5">
