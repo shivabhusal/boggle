@@ -32,12 +32,9 @@ export default function Timer({ callback, seconds }: { callback: () => void, sec
   }, [callback, currentTime, seconds]);
 
   return (
-    <div className="count-down-timer">
-      <canvas id="countdown" width={width} height={height} ref={canvasRef} />
-    </div>
+    <canvas id="countdown-timer" width={width} height={height} ref={canvasRef} />
   )
 }
-
 
 function drawTimer(currentTime: number, seconds: number, canvas: HTMLCanvasElement) {
   const min = Math.floor(currentTime / 60)
@@ -48,7 +45,10 @@ function drawTimer(currentTime: number, seconds: number, canvas: HTMLCanvasEleme
 
   // Draw background circle
   ctx.beginPath();
+
   ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, 2 * Math.PI);
+  ctx.fillStyle = "rgba(2, 2, 2, 0.4)";
+  ctx.fill()
   ctx.strokeStyle = '#ec5555';
   ctx.lineWidth = lineWidth;
   ctx.stroke();
@@ -65,5 +65,5 @@ function drawTimer(currentTime: number, seconds: number, canvas: HTMLCanvasEleme
   ctx.fillStyle = 'white';
   ctx.textAlign = 'center'; // Centers text horizontally
   ctx.textBaseline = 'middle'; // Centers text vertically
-  ctx.fillText(`${padding(min)}: ${padding(sec)}`, canvas.width / 2, canvas.height / 2);
+  ctx.fillText(`${padding(min)} : ${padding(sec)}`, canvas.width / 2, canvas.height / 2);
 }

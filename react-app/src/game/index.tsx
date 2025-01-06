@@ -5,6 +5,7 @@ import BoggleBoard from "./board";
 import InputForm from "./form";
 
 const API_URL = 'http://localhost:3000/api/v1/boards';
+const TIMER_DURATION = 120;
 
 export default function Board() {
   const [boardId, setBoardId] = useState<number | null>(null);
@@ -49,18 +50,23 @@ export default function Board() {
   }
 
   useEffect(() => { fetchBoard(); }, [])
-console.log('letters', letters)
+  console.log('letters', letters)
 
   return (
-    <div className="board row my-5">
-      <div className="col-md-6">
-        <Timer callback={whenTimerEnds} seconds={5}/>
-        <BoggleBoard letters={letters} />
-        <InputForm active={active} submitHandler={submitWord} />
+    <>
+      <h2 className="text-center my-2">Score: {score}</h2>
+      <div className="board row my-5">
+        <div className="col-6">
+          <BoggleBoard letters={letters} />
+          <InputForm active={active} submitHandler={submitWord} />
+        </div>
+        <div className="col-6">
+          <div className="d-flex justify-content-center my-3">
+            <Timer callback={whenTimerEnds} seconds={TIMER_DURATION} />
+          </div>
+          <ScoreBoard words={words} />
+        </div>
       </div>
-      <div className="col-md-6">
-        <ScoreBoard words={words} score={score} />
-      </div>
-    </div>
+    </>
   )
 }
