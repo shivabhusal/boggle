@@ -1,15 +1,23 @@
 import './App.css';
 import Board from './game';
 import bannerImage from './banner.png';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Button from './game/button';
+import { createContext } from 'react';
+import { AlertMessage } from './game/alertMessage';
 const API_URL = 'http://localhost:3000/up';
+
+export const GlobalContext = createContext<{
+  setAlertMessage: React.Dispatch<React.SetStateAction<object>>,
+  gameStarted: boolean,
+  setGameStarted: React.Dispatch<React.SetStateAction<boolean>>
+}>(null);
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const global: object = {
+  const [alertMessage, setAlertMessage] = useState({msg: '', type: 'primary'});
+  const global = {
     setAlertMessage,
     gameStarted,
     setGameStarted,
@@ -60,12 +68,15 @@ function App() {
         <div className="game col-md-6 offset-md-3" style={gameStyle}>
           <DarkModeSwitch />
           <Header />
-          {alertMessage && <div className="alert alert-primary mt-2" role="alert">{alertMessage}</div>}
-          {
-            isLoading ? <div className='text-center'>Loading...</div> :
-              gameStarted && <Board />
-          }
-          <Home onStart={handleRestart} onRestart={handleRestart} global={global} />
+          <AlertMessage alertMessage={alertMessage.msg} type={alertMessage.type} />
+          <GlobalContext.Provider value={global}>
+            {
+              isLoading ? <div className='text-center'>Loading...</div> :
+                gameStarted &&
+                <Board />
+            }
+            <Home onStart={handleRestart} onRestart={handleRestart} />
+          </GlobalContext.Provider>
         </div>
       </div>
     </div>
@@ -102,16 +113,19 @@ function Header() {
   )
 }
 
-function Home({ onStart, onRestart, global }: { onStart: () => void, onRestart: () => void, global: any }) {
+function Home({ onStart, onRestart }: { onStart: () => void, onRestart: () => void }) {
+  const global = useContext(GlobalContext);
+  const gameStarted = global.gameStarted;
   return (
     <div className='my-5'>
       {
-        global.gameStarted ? <Button onClick={onRestart}>Restart New Game</Button> :
-                <Button onClick={onStart}>Start New Game</Button>
-          
+        gameStarted ? <Button onClick={onRestart}>Restart New Game</Button> :
+          <Button onClick={onStart}>Start New Game</Button>
       }
     </div>
   )
 }
 
 export default App;
+
+
