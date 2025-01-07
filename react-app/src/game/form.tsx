@@ -1,15 +1,17 @@
-import { useRef } from "react";
+import { useState } from "react";
+import Button from "./button";
 
 export default function InputForm({ active, submitHandler }) {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [text, setText] = useState('');
+  const hasContent = text.length > 2;
   return (
-    <form className="input-container" onSubmit={(e) => {
+    <form className="input-container my-2" onSubmit={(e) => {
       e.preventDefault()
-      submitHandler(inputRef.current?.value || '')
-      inputRef.current!.value = ''
+      submitHandler(text)
+      setText('')
     }}>
-      <input type="text" className="form-control" readOnly={!active} ref={inputRef} />
-      <button disabled={!active} className="btn btn-primary mb-3">Submit</button>
+      <input type="text" className="form-control my-2" value={text} readOnly={!active} onChange={(e) => setText(e.target.value)} />
+      <Button disabled={!active || !hasContent}>Submit</Button>
     </form>
   )
 }
