@@ -1,4 +1,9 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+body{
+  font-family: "Sour Gummy", serif;
+  font-optical-sizing: auto;
+}
  [data-bs-theme="dark"] {
   .game{
     background: linear-gradient(145deg, #535151, #222) !important;
