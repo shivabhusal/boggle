@@ -5,7 +5,7 @@ export default function InputForm({ active, submitHandler }) {
   const [text, setText] = useState('');
   const hasContent = text.length > 2;
   return (
-    <form className="input-container my-2" onSubmit={(e) => {
+    <form className="input-container my-2" style={{width: '230px'}} onSubmit={(e) => {
       e.preventDefault()
       submitHandler(text)
       setText('')

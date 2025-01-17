@@ -16,7 +16,7 @@ export const GlobalContext = createContext<{
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
-  const [alertMessage, setAlertMessage] = useState({msg: '', type: 'primary'});
+  const [alertMessage, setAlertMessage] = useState({ msg: '', type: 'primary' });
   const global = {
     setAlertMessage,
     gameStarted,
@@ -65,7 +65,7 @@ function App() {
   return (
     <div className='container'>
       <div className="row">
-        <div className="game col-md-6 offset-md-3" style={gameStyle}>
+        <div className="game col-lg-6 offset-lg-3" style={gameStyle}>
           <DarkModeSwitch />
           <Header />
           <AlertMessage alertMessage={alertMessage.msg} type={alertMessage.type} />
