@@ -4,7 +4,8 @@
     "module": "commonjs",
     "jsx": "react-jsx",
     "types": [
-      "jest"
+      "jest",
+      "@testing-library/jest-dom"
     ],
     "esModuleInterop": true
   }

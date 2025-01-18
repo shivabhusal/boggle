@@ -24,7 +24,7 @@ function App() {
   }
 
   let retryCount = useRef(0);
-  let timer = useRef(0);
+  let timer = useRef<NodeJS.Timeout>(null);
 
   useEffect(() => {
     // Call server to check status  

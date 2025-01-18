@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react'
 import App from './App';
+import {test, expect} from '@jest/globals'
 
-test('renders learn react link', () => {
+test('renders app', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Boggle/i);
-  expect(linkElement).toBeInstanceOf(<header></header>);
+  const linkElement = screen.getByText(/Start New Game/i);
+  fireEvent.click(linkElement);
+  expect(linkElement).toBeInstanceOf(HTMLButtonElement);
 });
